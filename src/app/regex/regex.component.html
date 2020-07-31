@@ -1,0 +1,170 @@
+<div class="card panel-primary-v3">
+  <div class="card-header small-padding">
+    <div class="row">
+      <div class="col-6"><a class="text-white" href="/"><h3>RegEx Tester</h3></a></div>
+      <div class="col p-0">
+        <div class="engine-info" [attr.data-tooltip]="engine=='' ? 'Loading...' : engine=='offline' ? 'Offline' : engine">
+            <i class="btn btn-icon btn-engine-info fa pull-right" aria-hidden="true" [ngClass]="engine=='' ? 'fa-spinner fa-pulse' : engine == 'offline' ? 'fa-exclamation-circle' : 'fa-info-circle'"></i>
+        </div>
+        <div class="dropdown position-static pull-right">
+          <button class="btn btn-secondary dropdown-toggle bg-transparent disabled" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            .Net
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="#">.Net</a>
+            <a class="dropdown-item" href="#">Python</a>
+            <a class="dropdown-item" href="#">Java</a>
+            <a class="dropdown-item" href="#">JavaScript</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-9">
+        <div class="form-group">
+          <h6>Pattern</h6>
+          <div>
+            <textarea #inputPattern [(ngModel)]="pattern" (ngModelChange)="delaySubmit()"
+              rows="3" autocorrect="off" autocapitalize="none" spellcheck="false"
+              class="form-control input-text pattern" placeholder="\w+">
+            </textarea>
+            <span class="error-message" [class.hidden]="!(result.error || '')">{{ (result.error || '') }}</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <h6>Text</h6>
+          <div mwlTextInputHighlightContainer>
+            <div class="loading center center-text-textarea" [class.hidden]="!busy"></div>
+            <textarea #inputText mwlTextInputElement [(ngModel)]="text" (ngModelChange)="delaySubmit()"
+              rows="5" autocorrect="off" autocapitalize="none" spellcheck="false"
+              class="form-control input-text text" [class.readonly]="busy" placeholder="Input some text here">
+            </textarea>
+            <mwl-text-input-highlight
+              [tags]="highlight"
+              [textInputElement]="inputText">
+            </mwl-text-input-highlight>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 d-md-block d-none">
+        <!-- copy to #optionsPanel at the end of page (for mobile view) -->
+        <h6>Options</h6>
+        <div class="form-check" *ngFor="let option of options">
+          <label class="form-check-label">
+            <input type="checkbox" class="form-check-input" value="{{option.value}}"
+            [(ngModel)]="option.checked" (ngModelChange)="delaySubmit(500)"> {{ option.name }}
+          </label>
+        </div>
+        <!-- end copy to #optionsPanel at the end of page (for mobile view) -->
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="card nav-card">
+          <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs" role="tablist">
+              <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#tabMatches" role="tab" aria-controls="home"
+                   aria-expanded="true"><h6>Matches</h6></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#tabReplace" role="tab" aria-controls="replace"
+                   aria-expanded="true"><h6>Replace</h6></a>
+              </li>
+            </ul>
+          </div>
+          <div class="card-body">
+            <div class="tab-content">
+              <div class="tab-pane fade show active" id="tabMatches" role="tabpanel">
+                <div class="card match-result" *ngFor="let match of result.matches; let i = index">
+                  <div class="card-header" (click)="expandMatchReult[i] = !expandMatchReult[i]">
+                    <span class="result-value" [ngClass]="'match-' + (i % CONFIG.MATCH_COLORS_COUNT)">{{ match.value }}</span>
+                    <small><em>Index: {{ match.index }}, Length: {{ match.length }}</em></small>
+                  </div>
+                  <div class="card-body" *ngIf="expandMatchReult[i]">
+                    <div class="p-1">
+                    <h6>Groups</h6>
+                    <ul class="list-group small">
+                      <li class="list-group-item header">
+                        <div class="row">
+                          <div class="col">Name</div>
+                          <div class="col">Value</div>
+                          <div class="col">Index</div>
+                          <div class="col">Length</div>
+                        </div>
+                      </li>
+                      <li class="list-group-item" *ngFor="let group of match.groups">
+                        <div class="row">
+                          <div class="col">{{group.name}}</div>
+                          <div class="col">{{group.value}}</div>
+                          <div class="col">{{group.index}}</div>
+                          <div class="col">{{group.length}}</div>
+                        </div>
+                      </li>
+                    </ul>
+                    </div>
+                    <div class="p-1" *ngIf="match.captures">
+                      <h6>Captures</h6>
+                      <ul class="list-group small">
+                        <li class="list-group-item header">
+                          <div class="row">
+                            <div class="col"></div>
+                            <div class="col">Value</div>
+                            <div class="col">Index</div>
+                            <div class="col">Length</div>
+                          </div>
+                        </li>
+                        <li class="list-group-item" *ngFor="let capture of match.captures">
+                          <div class="row">
+                            <div class="col"></div>
+                            <div class="col">{{capture.value}}</div>
+                            <div class="col">{{capture.index}}</div>
+                            <div class="col">{{capture.length}}</div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div #tabReplace class="tab-pane fade" id="tabReplace" role="tabpanel">
+                <div class="form-group">
+                  <label for="inputReplace">Replace To</label>
+                  <input #inputReplace id="inputReplace" [(ngModel)]="replace" (ngModelChange)="delaySubmit()" type="text"
+                     placeholder="Input some text here" class="form-control input-text" autocorrect="off" autocapitalize="none" spellcheck="false" />
+                </div>
+                <div class="form-group">
+                  <label for="inputReplace">Result</label>
+                  <textarea #replaceResult [ngModel]="result.replace || ''" readonly="readonly"
+                    rows="5" autocorrect="off" autocapitalize="none" spellcheck="false" class="form-control input-text readonly">
+                  </textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer bg-transparent"></div>
+        </div>
+      </div>
+    </div>
+    <div class="row d-block d-md-none">
+      <div class="col">
+        <!-- copy from #optionsPanel (for mobile view) -->
+        <h6>Options</h6>
+          <div class="form-check" *ngFor="let option of options">
+            <label class="form-check-label">
+              <input type="checkbox" class="form-check-input" value="{{option.value}}"
+              [(ngModel)]="option.checked" (ngModelChange)="delaySubmit(500)"> {{ option.name }}
+            </label>
+          </div>
+        <!-- end copy from #optionsPanel (for mobile view) -->
+      </div>
+    </div>
+  </div>
+  <div class="card-footer page-footer">
+    <a href="https://leevox.com" target="_blank">LeeVox</a><span> &copy; 2017</span>
+    <a target="_blank" href="https://github.com/RegExTester/regex-tester" title="Source Code">
+      <img width="32px" height="32px" src="assets/img/github.png"/></a>
+  </div>
+</div>

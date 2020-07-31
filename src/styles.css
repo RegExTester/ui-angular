@@ -1,0 +1,187 @@
+a:hover {
+  text-decoration: none !important;
+}
+
+.bg-transparent {
+  background-color: transparent;
+}
+.bg-lightgrey {
+  background-color: #e5e5e5
+}
+
+div.container.margin-top {
+  margin-top: 2rem;
+}
+
+div.engine-info {
+  cursor: pointer;
+  color: rgba(255,255,255,0.8);
+}
+
+div.engine-info:hover:after {
+  content: attr(data-tooltip);
+  position: absolute;
+  background-color: #343a40;
+  color: #fff;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  font-size: 1rem;
+  top: 2rem;
+  right: 0;
+  z-index: 99;
+}
+
+i.btn-engine-info {
+  line-height: 1.5;
+}
+
+div.card.panel-primary-v3 > div.card-header {
+  color: #fff;
+  background-color: #337ab7;
+  border-color: #337ab7;
+}
+
+div.card-header.small-padding {
+  padding: 0.5rem 1.25rem;
+}
+
+label.form-check-label {
+  cursor: pointer;
+}
+
+div.card.nav-card {
+  border: none;
+}
+
+div.card.nav-card > .card-header {
+  background-color: transparent;
+}
+
+div.card.nav-card > .card-header a {
+  color: rgb(33, 37, 41);
+}
+
+div.card.nav-card > .card-body {
+  border: 1px solid rgba(0, 0, 0, .125);
+  border-top: none;
+}
+
+div.page-footer {
+  background-color: transparent;
+  border: none;
+  font-size: smaller;
+  text-align: right;
+  padding: 0 1.25rem 0.75rem;
+  margin-bottom: -0.25rem;
+}
+div.page-footer span, div.page-footer a:not(hover), div.page-footer img:not(hover) {
+  opacity: 0.3;
+}
+div.page-footer a:hover, div.page-footer img:hover {
+  opacity: 1;
+}
+
+/* textarea input */
+textarea.form-control:disabled {
+  background-color: #f7f7f7;
+}
+textarea.readonly {
+  background-color: rgba(0,0,0,.15) !important;
+  opacity: 1;
+  z-index: 10 !important;
+}
+textarea.input-text, input.input-text {
+  resize: none;
+  background-color: #f7f7f7;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  font-size: 20px;
+  text-space: 1px;
+  font-family: Consolas, "Courier New", monospace;
+}
+textarea.input-text.pattern:focus {
+  background-color: #f7f7f7;
+}
+div.text-highlight-element {
+  background-color: #f7f7f7 !important;
+}
+.text-highlight-tag {
+  border-radius: 4px !important;
+  padding: 0px !important;
+  margin: 0px !important;
+}
+@media only screen and (max-width: 768px) {
+  .text-input-highlight-container .text-highlight-element {
+    padding-left: 0.94rem !important;
+  }
+}
+
+.match-0 {
+  background-color: lightblue;
+}
+.match-1 {
+  background-color: lightgreen;
+}
+.match-2 {
+  background-color: lightsalmon;
+}
+.match-3 {
+  background-color: lightpink;
+}
+.match-4 {
+  background-color: lightslategrey;
+}
+
+.hidden {
+  display: none;
+}
+span.error-message {
+  color: red;
+  font-size: smaller;
+  margin-left: 10%;
+}
+.center {
+  margin: auto;
+  left: 0;
+  right: 0;
+}
+.center-text-textarea {
+  margin-top: calc(143px / 2 - 16px);
+}
+.loading {
+  border: 5px solid rgba(0,0,0,.15);
+  border-top: 5px solid #3498db;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+  z-index: 999;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* matches result */
+span.result-value {
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.5rem;
+  font-weight: bold;
+}
+.card.match-result {
+  margin-bottom: 0.25rem;
+}
+.card.match-result > .card-header {
+  padding: 0.5rem;
+  cursor: pointer;
+}
+.card.match-result > .card-body {
+  padding: 0.5rem 1.5rem;
+}
+li.header {
+  background-color: rgba(0,0,0,.03);
+}
