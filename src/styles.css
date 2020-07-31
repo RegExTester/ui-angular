@@ -34,6 +34,7 @@ div.engine-info:hover:after {
 
 i.btn-engine-info {
   line-height: 1.5;
+  color: #fff;
 }
 
 div.card.panel-primary-v3 > div.card-header {
@@ -171,6 +172,7 @@ span.result-value {
   padding: 0.25rem 0.5rem;
   border-radius: 0.5rem;
   font-weight: bold;
+  margin-right: 0.5rem;
 }
 .card.match-result {
   margin-bottom: 0.25rem;
