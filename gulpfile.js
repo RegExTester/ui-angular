@@ -10,13 +10,13 @@ gulp.task('ng-build', function (cb) {
   });
 })
 
-gulp.task('adapt-github-page', ['ng-build'], function () {
+gulp.task('adapt-github-page', gulp.series('ng-build', function () {
   return gulp.src('dist/index.html')
     .pipe(rename('404.html'))
     .pipe(gulp.dest('dist'));
-});
+}));
 
-gulp.task('build', ['adapt-github-page'], function () {
+gulp.task('build', gulp.series('adapt-github-page', function () {
   return gulp.src('dist/**/*.*')
-    .pipe(gulp.dest('../../regextester.github.io'));
-});
+    .pipe(gulp.dest('../regextester.github.io'));
+}));
