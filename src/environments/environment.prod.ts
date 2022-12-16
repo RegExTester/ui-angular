@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
-  googleAnalyticsId: 'UA-90206021-2',
+  googleAnalyticsId: 'G-WG235F87QN',
   apiServer: {
-    dotnet: 'https://regex-tester--api-dotnet.herokuapp.com'
+    dotnet: 'https://regex-tester-api-dotnet.azurewebsites.net/'
   }
 };
