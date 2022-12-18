@@ -100,17 +100,12 @@ export class RegexComponent implements OnInit, OnDestroy {
       options = this.options.reduce((sum, option) => sum + (option.checked ? option.value : 0), 0),
       url = '/{pattern}/{text}/{options}'.replace('{pattern}', pattern).replace('{text}', text).replace('{options}', options.toString());
 
-    this.updateUrl(url, {
-      event: 'regex',
-      category: this.pattern,
-      action: this.text,
-      label: options.toString()
-    });
+    this.updateUrl(url, this.pattern, this.text, options);
 
     this.http.post<RegExTesterResult>(CONFIG.API.DOTNET.REGEX, {
       pattern: this.pattern,
       text: this.text,
-      replace: this.tabReplace.nativeElement.classList.contains('active') ? this.replace : null,
+      replace: this.tabReplace?.nativeElement?.classList?.contains('active') ? this.replace : null,
       options: options
     }).subscribe(
       data => {
@@ -132,10 +127,9 @@ export class RegexComponent implements OnInit, OnDestroy {
     );
   }
 
-  updateUrl(url: string, seo: any) {
+  updateUrl(url: string, pattern: string, text: string, options: number) {
     this.location.replaceState(url);
-    this.gtag.updatePath(url);
-    this.gtag.trackEvent(seo.event, seo.category, seo.action, seo.label);
+    this.gtag.trackPageView(url, pattern, text, options);
 
     this.meta.updateTag({name: 'og:url', content: url});
     this.meta.updateTag({name: 'og:description', content: 'Pattern: ' + this.pattern});

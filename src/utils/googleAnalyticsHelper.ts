@@ -1,23 +1,13 @@
-import { environment } from '../environments/environment';
-
 declare var gtag: any;
 
-const gaId = environment.googleAnalyticsId;
-const prodMode = environment.production;
-
 export class GtagHelper {
-  updatePath(path: string) {
-    gtag('config', gaId, {
-      'page_path': path,
-      'send_page_view': prodMode
-    });
-  }
-
-  trackEvent(event: string, category: string, action: string, label: string) {
-    gtag('event', event, {
-      'event_category': category,
-      'event_action': action,
-      'event_label': label,
+  trackPageView(url: string, pattern: string, text: string, options: number) {
+    gtag('event', "page_view", {
+      'page_location': url,
+      'page_title': `${options} | ${pattern} | ${text}`,
+      'pattern': pattern,
+      'text': text,
+      'options': options
     });
   }
 }
