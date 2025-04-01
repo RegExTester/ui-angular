@@ -1,18 +1,20 @@
-import {Component, OnInit, OnDestroy, ElementRef, ViewChild} from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, ViewChild} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Location } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Meta } from '@angular/platform-browser';
-import { HighlightTag } from 'angular-text-input-highlight';
-import { RegExTesterResult, Match } from '../../model/regextesterresult.model';
+import { RegExTesterResult } from '../../model/regextesterresult.model';
 import { EncodeUriHelper } from '../../utils/encodeUriHelper';
 import { GtagHelper } from '../../utils/googleAnalyticsHelper';
 import { CONFIG } from './regex.config';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-regex',
+  standalone: true,
   templateUrl: './regex.component.html',
   styleUrls: ['./regex.component.css'],
+  imports: [ CommonModule, FormsModule ],
   providers: [ EncodeUriHelper, GtagHelper ]
 })
 export class RegexComponent implements OnInit, OnDestroy {
@@ -28,18 +30,17 @@ export class RegexComponent implements OnInit, OnDestroy {
   engine = '';
   pattern = '';
   text = '';
+  highlightText = '';
   replace = '';
   options = Object.values(CONFIG.REGEX_OPTIONS).map(opt => ({
     name: opt.Name, value: opt.Value, checked: false
   }));
 
   result: any = {};
-  highlight: HighlightTag[] = [];
 
   constructor(private http: HttpClient,
     private meta: Meta,
     private route: ActivatedRoute,
-    private router: Router,
     private location: Location,
     private encoder: EncodeUriHelper,
     private gtag: GtagHelper) {
@@ -67,16 +68,14 @@ export class RegexComponent implements OnInit, OnDestroy {
 
   warmUpApiServer() {
     this.http.get<any>(CONFIG.API.DOTNET.INFO)
-      .subscribe(
-        data => this.engine = data.framework,
-        error => this.engine = 'offline'
-      );
+      .subscribe({
+        next: data => this.engine = data.framework,
+        error: () => this.engine = 'offline'
+      });
   }
 
   /** debounce user input */
   delaySubmit(time?: number) {
-    this.highlight = [];
-
     if (this.debounceTimer !== null) {
       clearTimeout(this.debounceTimer);
     }
@@ -93,7 +92,7 @@ export class RegexComponent implements OnInit, OnDestroy {
     this.busy = true;
     this.result = {};
     this.expandMatchReult = {};
-    this.highlight = [];
+    this.highlightText = '';
 
     const pattern = this.encoder.encodeBase64(this.pattern || ''),
       text = this.encoder.encodeBase64(this.text || ''),
@@ -107,24 +106,22 @@ export class RegexComponent implements OnInit, OnDestroy {
       text: this.text,
       replace: this.tabReplace?.nativeElement?.classList?.contains('active') ? this.replace : null,
       options: options
-    }).subscribe(
-      data => {
+    }).subscribe({
+      next: data => {
         this.result = data;
-
-        setTimeout(() => {
-          let matchIndex = 0;
-          this.highlight = data.matches.map(match => ({
-            cssClass: 'match-' + (matchIndex++ % CONFIG.MATCH_COLORS_COUNT),
-            indices: {start: match.index, end: match.index + match.length}
-          }));
-          this.busy = false;
-        }, CONFIG.DELAY_TIME);
+        let highlightText = this.text;
+        for (let index = data.matches.length - 1; index >= 0; index--) {
+          let match = data.matches[index];
+          highlightText = highlightText.substring(0, match.index) + `<span class="result-value-small match-${index % CONFIG.MATCH_COLORS_COUNT}">${match.value}</span>` + highlightText.substring(match.index + match.length);
+        }
+        this.highlightText = highlightText;
+        this.busy = false;
       },
-      error => {
+      error: () => {
         this.result = { error: 'Error: Cannot contact the API.' };
         this.busy = false;
       }
-    );
+  });
   }
 
   updateUrl(url: string, pattern: string, text: string, options: number) {

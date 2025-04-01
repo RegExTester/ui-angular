@@ -35,16 +35,12 @@
         </div>
         <div class="form-group">
           <h6>Text</h6>
-          <div mwlTextInputHighlightContainer>
+          <div>
             <div class="loading center center-text-textarea" [class.hidden]="!busy"></div>
-            <textarea #inputText mwlTextInputElement [(ngModel)]="text" (ngModelChange)="delaySubmit()"
+            <textarea #inputText [(ngModel)]="text" (ngModelChange)="delaySubmit()"
               rows="5" autocorrect="off" autocapitalize="none" spellcheck="false"
               class="form-control input-text text" [class.readonly]="busy" placeholder="Input some text here">
             </textarea>
-            <mwl-text-input-highlight
-              [tags]="highlight"
-              [textInputElement]="inputText">
-            </mwl-text-input-highlight>
           </div>
         </div>
       </div>
@@ -54,7 +50,7 @@
         <div class="form-check" *ngFor="let option of options">
           <label class="form-check-label">
             <input type="checkbox" class="form-check-input" value="{{option.value}}"
-            [(ngModel)]="option.checked" (ngModelChange)="delaySubmit(500)"> {{ option.name }}
+            [(ngModel)]="option.checked" (ngModelChange)="delaySubmit()"> {{ option.name }}
           </label>
         </div>
         <!-- end copy to #optionsPanel at the end of page (for mobile view) -->
@@ -65,23 +61,27 @@
         <div class="card nav-card">
           <div class="card-header">
             <ul class="nav nav-tabs card-header-tabs" role="tablist">
-              <li class="nav-item">
-                <a class="nav-link active" data-toggle="tab" href="#tabMatches" role="tab" aria-controls="home"
-                   aria-expanded="true"><h6>Matches</h6></a>
+              <li class="nav-item" role="presentation">
+                <button type="button" class="nav-link active" data-bs-toggle="tab" role="tab" aria-controls="tabMatches" data-bs-target="#tabMatches"
+                   aria-expanded="true"><h6>Matches</h6></button>
               </li>
               <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#tabReplace" role="tab" aria-controls="replace"
-                   aria-expanded="true"><h6>Replace</h6></a>
+                <button type="button" class="nav-link" data-bs-toggle="tab" role="tab" aria-controls="tabReplace" data-bs-target="#tabReplace"
+                   aria-expanded="true"><h6>Replace</h6></button>
               </li>
             </ul>
           </div>
           <div class="card-body">
             <div class="tab-content">
               <div class="tab-pane fade show active" id="tabMatches" role="tabpanel">
+                <h4 *ngIf="result.matches?.length > 0">Result</h4>
+                <div class="card hightlightText" *ngIf="result.matches?.length > 0" [innerHtml]="highlightText"></div>
+
+                <h4 *ngIf="result.matches?.length > 0">Groups</h4>
                 <div class="card match-result" *ngFor="let match of result.matches; let i = index">
                   <div class="card-header" (click)="expandMatchReult[i] = !expandMatchReult[i]">
                     <span class="result-value" [ngClass]="'match-' + (i % CONFIG.MATCH_COLORS_COUNT)">{{ match.value }}</span>
-                    <small><em>Index: {{ match.index }}, Length: {{ match.length }}</em></small>
+                    <small><em>{{result.matches.Length}} Index: {{ match.index }}, Length: {{ match.length }}</em></small>
                   </div>
                   <div class="card-body" *ngIf="expandMatchReult[i]">
                     <div class="p-1">

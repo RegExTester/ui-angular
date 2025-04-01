@@ -1,7 +1,7 @@
 import { environment } from '../../environments/environment';
 
 export const CONFIG = {
-  DELAY_TIME: 800,
+  DELAY_TIME: 1500,
   MATCH_COLORS_COUNT: 5,
   REGEX_OPTIONS: {
     IgnoreCase:               {Value: 1 << 0, Name: 'Ignore Case'},
