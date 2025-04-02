@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { RegexComponent } from './regex.component';
+import { provideRouter } from '@angular/router';
 
 describe('RegexComponent', () => {
   let component: RegexComponent;
@@ -8,7 +10,12 @@ describe('RegexComponent', () => {
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
-      declarations: [ RegexComponent ]
+      declarations: [ ],
+      providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting()
+      ]
     })
     .compileComponents();
   });

@@ -50,7 +50,7 @@ export class RegexComponent implements OnInit, OnDestroy {
     this.warmUpApiServer();
 
     this.routeSubscribe = this.route.params.subscribe(params => {
-      const optionsValue = +params['options'];
+      const optionsValue = isNaN(+params['options']) ? CONFIG.DEFAULT_OPTIONS : +params['options'];
 
       this.pattern = this.encoder.decodeBase64(params['pattern'] || '');
       this.text = this.encoder.decodeBase64(params['text'] || '');
@@ -130,5 +130,9 @@ export class RegexComponent implements OnInit, OnDestroy {
 
     this.meta.updateTag({name: 'og:url', content: url});
     this.meta.updateTag({name: 'og:description', content: 'Pattern: ' + this.pattern});
+  }
+
+  hasResult() {
+    return this.result.matches && this.result.matches.length > 0;
   }
 }

@@ -1,8 +1,9 @@
 import { environment } from '../../environments/environment';
 
 export const CONFIG = {
-  DELAY_TIME: 1500,
+  DELAY_TIME: 800,
   MATCH_COLORS_COUNT: 5,
+  DEFAULT_OPTIONS: 1 | 2 | 4 | 1024, // IgnoreCase | Multiline | ExplicitCapture | NonBacktracking
   REGEX_OPTIONS: {
     IgnoreCase:               {Value: 1 << 0, Name: 'Ignore Case'},
     Multiline:                {Value: 1 << 1, Name: 'Multiline'},
@@ -13,6 +14,7 @@ export const CONFIG = {
     RightToLeft:              {Value: 1 << 6, Name: 'Right To Left'},
     ECMAScript:               {Value: 1 << 8, Name: 'ECMAScript'},
     CultureInvariant:         {Value: 1 << 9, Name: 'Culture Invariant'},
+    NonBacktracking:          {Value: 1 << 10, Name: 'Non Backtracking'},
     ShowCaptures:             {Value: 1 << 15, Name: 'Show Captures'},
   },
   API: {

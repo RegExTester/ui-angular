@@ -46,7 +46,7 @@
       </div>
       <div class="col-md-3 d-md-block d-none">
         <!-- copy to #optionsPanel at the end of page (for mobile view) -->
-        <h6>Options</h6>
+        <h6>Options <a title="Regular expression options" href="https://learn.microsoft.com/en-us/dotnet/standard/base-types/regular-expression-options" class="external-link" target="_blank"><i class="fa fa-external-link" aria-hidden="true"></i></a></h6>
         <div class="form-check" *ngFor="let option of options">
           <label class="form-check-label">
             <input type="checkbox" class="form-check-input" value="{{option.value}}"
@@ -74,14 +74,14 @@
           <div class="card-body">
             <div class="tab-content">
               <div class="tab-pane fade show active" id="tabMatches" role="tabpanel">
-                <h4 *ngIf="result.matches?.length > 0">Result</h4>
-                <div class="card hightlightText" *ngIf="result.matches?.length > 0" [innerHtml]="highlightText"></div>
+                <h4 *ngIf="hasResult()">Result</h4>
+                <div class="card hightlightText" *ngIf="hasResult()" [innerHtml]="highlightText"></div>
 
-                <h4 *ngIf="result.matches?.length > 0">Groups</h4>
+                <h4 *ngIf="hasResult()">Groups</h4>
                 <div class="card match-result" *ngFor="let match of result.matches; let i = index">
                   <div class="card-header" (click)="expandMatchReult[i] = !expandMatchReult[i]">
                     <span class="result-value" [ngClass]="'match-' + (i % CONFIG.MATCH_COLORS_COUNT)">{{ match.value }}</span>
-                    <small><em>{{result.matches.Length}} Index: {{ match.index }}, Length: {{ match.length }}</em></small>
+                    <small><em>Index: {{ match.index }}, Length: {{ match.length }}</em></small>
                   </div>
                   <div class="card-body" *ngIf="expandMatchReult[i]">
                     <div class="p-1">

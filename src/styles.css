@@ -2,6 +2,11 @@ a {
   text-decoration: none !important;
 }
 
+a.external-link {
+  font-size: small;
+  color: rgb(33, 37, 41);
+}
+
 .bg-transparent {
   background-color: transparent;
 }

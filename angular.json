@@ -127,6 +127,16 @@
               "devServerTarget": "ui-angular:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy",
+          "options": {
+            "repo": "https://github.com/RegExTester/regextester.github.io",
+            "dir": "dist/",
+            "branch": "master",
+            "message": "Continuous Deployment",
+            "noNojekyll": false
+          }
         }
       }
     }},
