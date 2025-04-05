@@ -1,11 +1,10 @@
 import { Component, OnInit, OnDestroy, ElementRef, ViewChild} from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { CommonModule, Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Meta } from '@angular/platform-browser';
 import { RegExTesterResult } from '../../model/regextesterresult.model';
 import { EncodeUriHelper } from '../../utils/encodeUriHelper';
-import { GtagHelper } from '../../utils/googleAnalyticsHelper';
 import { CONFIG } from './regex.config';
 import { FormsModule } from '@angular/forms';
 
@@ -15,7 +14,7 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './regex.component.html',
   styleUrls: ['./regex.component.css'],
   imports: [ CommonModule, FormsModule ],
-  providers: [ EncodeUriHelper, GtagHelper ]
+  providers: [ EncodeUriHelper ]
 })
 export class RegexComponent implements OnInit, OnDestroy {
   @ViewChild('tabReplace') tabReplace: ElementRef;
@@ -42,8 +41,7 @@ export class RegexComponent implements OnInit, OnDestroy {
     private meta: Meta,
     private route: ActivatedRoute,
     private location: Location,
-    private encoder: EncodeUriHelper,
-    private gtag: GtagHelper) {
+    private encoder: EncodeUriHelper) {
   }
 
   ngOnInit() {
@@ -126,7 +124,6 @@ export class RegexComponent implements OnInit, OnDestroy {
 
   updateUrl(url: string, pattern: string, text: string, options: number) {
     this.location.replaceState(url);
-    this.gtag.trackPageView(url, pattern, text, options);
 
     this.meta.updateTag({name: 'og:url', content: url});
     this.meta.updateTag({name: 'og:description', content: 'Pattern: ' + this.pattern});
