@@ -28,6 +28,7 @@
           <div>
             <textarea #inputPattern [(ngModel)]="pattern" (ngModelChange)="delaySubmit()"
               rows="3" autocorrect="off" autocapitalize="none" spellcheck="false"
+              maxlength="512"
               class="form-control input-text pattern" placeholder="\w+">
             </textarea>
             <span class="error-message" [class.hidden]="!(result.error || '')">{{ (result.error || '') }}</span>
@@ -39,6 +40,7 @@
             <div class="loading center center-text-textarea" [class.hidden]="!busy"></div>
             <textarea #inputText [(ngModel)]="text" (ngModelChange)="delaySubmit()"
               rows="5" autocorrect="off" autocapitalize="none" spellcheck="false"
+              maxlength="1024"
               class="form-control input-text text" [class.readonly]="busy" placeholder="Input some text here">
             </textarea>
           </div>

@@ -87,6 +87,16 @@ export class RegexComponent implements OnInit, OnDestroy {
       return;
     }
 
+    if (this.pattern.length > 512) {
+      this.result = { error: 'Pattern exceeds maximum length of 512 characters.' };
+      return;
+    }
+
+    if (this.text.length > 1024) {
+      this.result = { error: 'Text exceeds maximum length of 1024 characters.' };
+      return;
+    }
+
     this.busy = true;
     this.result = {};
     this.expandMatchReult = {};
