@@ -17,11 +17,11 @@ import { FormsModule } from '@angular/forms';
   providers: [ EncodeUriHelper ]
 })
 export class RegexComponent implements OnInit, OnDestroy {
-  @ViewChild('tabReplace') tabReplace: ElementRef;
+  @ViewChild('tabReplace') tabReplace!: ElementRef;
   CONFIG = CONFIG;
 
-  routeSubscribe;
-  debounceTimer;
+  routeSubscribe: any;
+  debounceTimer: ReturnType<typeof setTimeout> | null = null;
   busy = false;
 
   expandMatchReult = {};

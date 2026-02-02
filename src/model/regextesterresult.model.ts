@@ -1,10 +1,10 @@
-export class Match {
+export interface Match {
   name: string;
   index: number;
   length: number;
   value: string;
 }
 
-export class RegExTesterResult {
+export interface RegExTesterResult {
   matches: Match[];
 }
